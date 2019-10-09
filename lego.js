@@ -3,14 +3,15 @@ function sleep(ms) {
 }
 
 const TOL = 100;
-const H = 50;
-const W = 50;
+const W = 120;
+const H = 73;
 const STEP = 3;
 
 class Animator {
-    constructor() {
+    constructor(img) {
         this.canvas = document.getElementById('play');
         this.ctx = this.canvas.getContext('2d');
+        this.img = img;
     }
 
     drawOrClearRect(pt, shouldClear) {
@@ -22,11 +23,7 @@ class Animator {
         if (shouldClear === true) {
             this.ctx.clearRect(-TOL, -TOL, W + TOL, H + TOL);
         } else {
-            this.ctx.strokeStyle = 'rgb(0, 255, 0)';
-            this.ctx.rect(0, 0, W, H);
-
-            this.ctx.fillStyle = 'rgba(255, 0, 0)';
-            this.ctx.fillRect(0, 0, W, H);
+            this.ctx.drawImage(this.img, 0, 0);
         }
         this.ctx.stroke();
         this.ctx.closePath();
@@ -89,9 +86,10 @@ function computePath() {
     return path;
 }
 
-async function animatePath() {
+async function animatePath(img) {
     var path = computePath();
-    var animator = new Animator();
+    var animator = new Animator(img);
+
     $('#init').hide();
     $('#play-button').prop('disabled', true);
     await animator.animate(path);
@@ -100,6 +98,9 @@ async function animatePath() {
 }
 
 $(function() {
+    var img = new Image();
+    img.src = 'robot_topview.png';
+    
     $('#init').draggable();
     $('#slider').slider({
         min: -90,
@@ -114,16 +115,22 @@ $(function() {
         }
     });
 
-    $('#add-step-button').click(function(event, ui) {
-        var newstep = $('#step-template').clone();
+    var step = $('#step-template');
+    function addStep() {
+        var newstep = step.clone();
         $('#steps-list').append(newstep);
         $('#delete-button', newstep).click(function() {
             newstep.remove();
         });
+    }
+
+    addStep();
+    $('#add-step-button').click(function(event, ui) {
+        addStep();
     });
 
     $('#play-button').click(function() {
-        animatePath();
+        animatePath(img);
     });
 
 })

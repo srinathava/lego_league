@@ -17,12 +17,11 @@
 
 #init {
     position: absolute;
-    top: 594px; /* 644 - 50 */
+    top: 494px; /* 644 - 50 */
     left: 0px;
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    background-image: url("right-arrow.png");
+    width: 120px;
+    height: 73px;
+    background-image: url("robot_topview.png");
     background-size: contain;
 }
 
@@ -49,13 +48,29 @@
 
 #steps-container {
     position: absolute;
+    padding: 10px;
     top: 0px;
     left: 987px;
     height: 100%;
     width: 300px;
-    background-color: red;
 }
 
 #template-container > div {
     display: none; 
+}
+
+#step-template {
+    border: 1px solid black; 
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#steps-list {
+    margin: 10px;
+}
+
+#step-template > button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
 }
